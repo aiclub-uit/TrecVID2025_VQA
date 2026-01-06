@@ -1,0 +1,41 @@
+# InternVL3.5 Configuration for Answer Generation
+
+model_type: "transformers"
+model_name: "/mlcv2025/WorkingSpace/Personal/baotg/TREC25/source/modules/vqa/InternVL3_5-38B-Instruct" 
+model_format: "internvl"
+
+# Model arguments passed to from_pretrained
+model_args:
+  torch_dtype: "float16" # Changed to float16 for P40 compatibility
+  device_map: "auto"
+  trust_remote_code: true
+  use_flash_attn: false # FlashAttn not supported on P40 usually
+  load_in_8bit: false # Bitsandbytes failed on P40
+  # image_size: 448 
+
+# Inference parameters
+device: "cuda"
+max_frames: 8
+fps: 1 
+
+# Generation parameters
+generation_config:
+  max_new_tokens: 128
+  do_sample: false
+  temperature: 0.0
+
+# Multiple answers configuration
+multiple_answers:
+  num_iterations: 1 
+
+# Prompt configuration
+prompt:
+  type: "visual_only" 
+
+data_config:
+  prepared_data_dir: "/mlcv2025/WorkingSpace/Personal/baotg/TREC25/source/modules/vqa/prepared_data_ag"
+  video_data_dir: "/mlcv2025/WorkingSpace/Personal/baotg/TREC25/source/modules/vqa/data/test/videos"
+  output_dir: "/mlcv2025/WorkingSpace/Personal/baotg/TREC25/source/modules/vqa/results_ag_internvl"
+
+logging:
+  level: "INFO"

@@ -1,5 +1,7 @@
 import torch
 from transformers import AutoProcessor, AutoModelForCausalLM
+import torchvision.transforms as T
+from torchvision.transforms.functional import InterpolationMode
 
 try:
     from transformers import Qwen2_5_VLForConditionalGeneration
@@ -46,6 +48,7 @@ class TransformersModel(EnhancedVQAModel):
             "qwen2.5-vl" in self.model_name.lower()
             or "qwen2_5-vl" in self.model_name.lower()
         )
+        self.is_internvl = "internvl" in self.model_name.lower()
 
         print(
             f"Initializing TransformersModel with model_name: {self.model_name}, "
@@ -504,6 +507,45 @@ class TransformersModel(EnhancedVQAModel):
 
                     logger.info(f"trace_id: {traceid} - Fallback inference complete")
                     return output_text[0] if output_text else ""
+
+            elif self.is_internvl:
+                logger.info(f"trace_id: {traceid} - Using InternVL inference pathway")
+                
+                # Image transformation
+                IMAGENET_MEAN = (0.485, 0.456, 0.406)
+                IMAGENET_STD = (0.229, 0.224, 0.225)
+                transform = T.Compose([
+                    T.Lambda(lambda img: img.convert('RGB') if img.mode != 'RGB' else img),
+                    T.Resize((448, 448), interpolation=InterpolationMode.BICUBIC),
+                    T.ToTensor(),
+                    T.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)
+                ])
+                
+                # Process frames
+                frames = inference_data.get("frames", [])
+                # Filter out any non-image objects if necessary
+                valid_frames = [img for img in frames if hasattr(img, 'convert')]
+                
+                pixel_values = torch.cat([transform(img).unsqueeze(0) for img in valid_frames], dim=0)
+                pixel_values = pixel_values.to(self.model.device).to(self.model.dtype)
+                
+                # Generation config
+                generation_config = {
+                    "max_new_tokens": self.config.get("max_new_tokens", 512),
+                    "do_sample": False,
+                }
+                
+                # Call chat
+                # Note: InternVL chat method expects specific args
+                response = self.model.chat(
+                    tokenizer=self.processor,
+                    pixel_values=pixel_values,
+                    question=inference_data.get("prompt", ""),
+                    generation_config=generation_config
+                )
+                
+                logger.info(f"trace_id: {traceid} - InternVL inference complete")
+                return response
 
             else:
                 # Standard model inference (Qwen, etc.)

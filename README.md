@@ -10,6 +10,12 @@ A comprehensive framework for Video Question Answering (VQA) supporting both **M
 ├── requirements.txt          # Python dependencies
 ├── .gitignore               # Git ignore patterns
 │
+├── data_preparation/        # Data Download & Preparation
+│   ├── README.md            # Data preparation docs
+│   ├── download.py          # YouTube video downloader
+│   ├── reencode_av1_videos.py # Re-encode problematic codecs
+│   └── prepare_mc_data.py   # Prepare MC data from CSV
+│
 ├── multiple_choice/         # Multiple Choice (MC) Task
 │   ├── README.md            # MC documentation
 │   ├── mc_infer.py          # MC inference script

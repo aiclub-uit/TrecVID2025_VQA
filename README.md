@@ -1,14 +1,24 @@
-# Multiple Choice Video Question Answering (MC-VQA)
+# TrecVID 2025 Video Question Answering
 
-A comprehensive framework for Multiple Choice Video Question Answering using Vision-Language Models (VLMs). This system supports multiple inference backends and includes tools for evaluation and submission generation.
+A comprehensive framework for Video Question Answering (VQA) supporting both **Multiple Choice (MC)** and **Answer Generation (AG)** tasks. Built using Vision-Language Models (VLMs) with multiple inference backends.
 
 ## Features
 
-- **Multiple Backend Support**: VLLM, Transformers, and llama.cpp HTTP server
+### Multiple Choice (MC) Task
 - **Ranking-based Inference**: Rank all options from most to least likely
-- **Audio Transcription Support**: Incorporate speech recognition for multimodal understanding
-- **Comprehensive Evaluation**: Top-k accuracy, MRR, ensemble voting methods
-- **Submission Generation**: Generate competition-ready submission files
+- **Multiple Backend Support**: VLLM, Transformers, and llama.cpp HTTP server
+- **Ensemble Voting**: Combine predictions using Borda, Plurality, Approval, or Condorcet methods
+
+### Answer Generation (AG) Task
+- **Open-ended Answers**: Generate natural language responses
+- **Enhanced Prompting**: Video context generation for improved understanding
+- **Multiple Answer Generation**: Generate diverse answers for ensemble submission
+- **Speech Recognition**: Whisper and Seamless M4T ASR integration
+
+### Common Features
+- **Audio Transcription Support**: Multimodal understanding with speech
+- **Comprehensive Evaluation**: Detailed metrics and analysis
+- **Submission Generation**: Competition-ready output files
 
 ## Supported Models
 
@@ -214,22 +224,32 @@ mc_config:
 
 ```
 .
-├── mc_infer.py              # Main inference script
-├── eval.py                  # Evaluation and ensemble
-├── create_submission.py     # Submission generator
-├── requirements.txt         # Python dependencies
-├── models/
-│   ├── __init__.py
-│   ├── vllm.py              # VLLM backend
-│   ├── transformers.py      # Transformers backend
-│   └── llama_model.py       # llama.cpp backend
-├── libs/
-│   ├── __init__.py
-│   └── utils.py             # Utilities
-├── configs/
-│   └── *.yaml               # Configuration files
-└── example_data/
-    └── sample.json          # Example data format
+├── README.md                 # This file
+├── requirements.txt          # Python dependencies
+├── .gitignore               # Git ignore patterns
+│
+├── # Multiple Choice (MC) Task
+├── mc_infer.py              # MC inference script
+├── eval.py                  # MC evaluation and ensemble
+├── create_submission.py     # MC submission generator
+├── models/                  # MC model backends
+│   ├── vllm.py
+│   ├── transformers.py
+│   └── llama_model.py
+├── libs/                    # MC utilities
+├── configs/                 # MC configuration examples
+├── example_data/            # Example data format
+│
+└── answer_generation/       # Answer Generation (AG) Task
+    ├── README.md            # AG documentation
+    ├── infer.py             # AG inference script
+    ├── eval.py              # AG evaluation
+    ├── prepare.py           # Data preparation with ASR
+    ├── create_submission.py # AG submission generator
+    ├── prompt_builder.py    # Prompt templates
+    ├── models/              # AG model backends
+    ├── libs/                # AG evaluation utilities
+    └── configs/             # AG configuration examples
 ```
 
 ## Tips for Best Results

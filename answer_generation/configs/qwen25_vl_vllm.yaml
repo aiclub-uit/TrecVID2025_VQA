@@ -1,0 +1,29 @@
+# Qwen2.5-VL Configuration using vLLM Backend
+# High-throughput inference with VLLM
+
+model_type: "vllm"
+model_name: "/path/to/your/Qwen2.5-VL-32B-Instruct"  # Update to your model path
+num_frames: 64
+gpu_memory_utilization: 0.95
+max_model_len: 30000
+model_impl: transformers
+
+# Optional: cache directory for model weights
+# cache_dir: "/path/to/cache"
+
+# vLLM-specific parameters
+sampling_params:
+  max_tokens: 1024
+  temperature: 0.1
+  top_p: 0.95
+  stop: ["\n\n", "---"]
+
+# Prompt configuration
+prompt_template: "audio_enhanced"  # Options: basic_vqa, audio_enhanced
+
+# Multiple answers configuration
+multiple_answers:
+  num_iterations: 10
+
+# Legacy fallback prompt (kept for compatibility)
+prompt: "Please answer the question about this video."

@@ -1,0 +1,38 @@
+# VideoLLaMA3 Configuration for Answer Generation
+# Uses Transformers backend with VideoLLaMA3 model
+
+model_type: "transformers"
+model_name: "/path/to/your/VideoLLaMA3-7B"  # Update to your model path
+model_format: "videollama3"
+
+# Essential VideoLLaMA3 settings
+device: "cuda"
+attn_implementation: "flash_attention_2"
+fps: 8
+max_frames: 180
+max_new_tokens: 512
+
+# Optional: cache directory for model weights
+# cache_dir: "/path/to/cache"
+
+# Sampling parameters
+sampling_params:
+  max_tokens: 32
+  temperature: 0.0
+  top_p: 1
+  stop: ["\n\n", "---"]
+
+# Enhanced prompting configuration
+enhanced_prompting:
+  enabled: true                    # Enable enhanced prompting with video context
+  video_context_generation: true   # Generate video context description first
+  use_audio_visual_enhanced: true  # Use enhanced audio-visual prompt template
+
+# Multiple answers configuration
+multiple_answers:
+  num_iterations: 10  # Number of different answers to generate per question
+  
+# Prompt configuration
+prompt_template: "enhanced_audio_visual"  # Options: "visual_only", "audio_visual", "enhanced_audio_visual"
+prompt:
+  type: "enhanced_audio_visual"

@@ -7,6 +7,8 @@ accelerate>=0.25.0
 opencv-python>=4.8.0
 Pillow>=9.0.0
 torchvision>=0.15.0
+moviepy>=1.0.0
+torchaudio>=2.0.0
 
 # Configuration
 PyYAML>=6.0
@@ -27,3 +29,9 @@ requests>=2.28.0
 
 # Optional: Flash Attention for faster inference
 # pip install flash-attn --no-build-isolation
+
+# Optional: Whisper for speech recognition (AG task)
+# pip install openai-whisper
+
+# Optional: Seamless M4T for speech recognition (AG task)
+# pip install seamless-communication

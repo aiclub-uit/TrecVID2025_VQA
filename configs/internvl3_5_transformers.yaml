@@ -1,0 +1,64 @@
+# InternVL3.5 Configuration - Transformers Backend
+# This configuration uses the Hugging Face Transformers library
+
+model_type: "transformers"
+model_name: "/path/to/your/InternVL3_5-38B-Instruct"  # Change to your model path
+model_format: "internvl"
+
+# Model configuration
+transformers_config:
+  torch_dtype: "bfloat16"
+  device_map: "auto"
+  trust_remote_code: true
+  low_cpu_mem_usage: true
+  use_flash_attn: true
+  load_in_8bit: false  # Set to true for memory optimization if needed
+  max_num_tiles: 12    # InternVL3.5 specific parameter for image tiles
+  image_size: 336      # InternVL3.5 specific parameter for image size
+
+# Generation parameters
+generation_config:
+  max_new_tokens: 32   # Sufficient for ranking output
+  do_sample: false
+  temperature: 0.0
+
+# Data configuration
+data_config:
+  prepared_data_dir: "prepared"
+  video_data_dir: "/path/to/videos"  # Change to your video directory
+  output_dir: "./outputs"
+
+# Multiple choice configuration - using ranking approach
+mc_config:
+  max_frames: 16
+  frame_sampling: "uniform"
+  approach: "ranking"  # Use the original ranking approach
+  
+  # Ranking approach prompt
+  prompt_template: |
+    You are given a video and a multiple-choice question about it.
+    Your task: watch the video carefully and answer the question.
+
+    For each question, rank all options from most likely correct to least likely correct. Provide your ranking as letters separated by spaces (e.g., B A D C).
+
+    Example 1
+    Question: What color was the car that drove past the intersection?
+    Options:
+    A. Red
+    B. Blue
+    C. Green
+    D. Yellow
+    Answer: A D B C
+
+    Question: {question}
+    Options:
+    A. {option_a}
+    B. {option_b}
+    C. {option_c}
+    D. {option_d}
+    Answer:
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "./logs"

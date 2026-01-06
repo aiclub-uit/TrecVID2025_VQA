@@ -1,0 +1,20 @@
+{
+  "video_id": "example_video_001",
+  "video_path": "/path/to/videos/example_video_001.mp4",
+  "question": "What is the main activity shown in the video?",
+  "choices": [
+    "A person is cooking a meal in the kitchen",
+    "A person is playing a musical instrument",
+    "A person is exercising outdoors",
+    "A person is reading a book"
+  ],
+  "correct_answer": "A person is cooking a meal in the kitchen",
+  "speech_recognition": {
+    "recognized_text": "Today I'm going to show you how to make a delicious pasta dish. First, we need to boil some water..."
+  },
+  "metadata": {
+    "duration_seconds": 120,
+    "fps": 30,
+    "resolution": "1920x1080"
+  }
+}

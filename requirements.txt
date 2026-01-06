@@ -1,0 +1,29 @@
+# Core dependencies
+torch>=2.0.0
+transformers>=4.40.0
+accelerate>=0.25.0
+
+# Vision and video processing
+opencv-python>=4.8.0
+Pillow>=9.0.0
+torchvision>=0.15.0
+
+# Configuration
+PyYAML>=6.0
+
+# Evaluation
+pandas>=1.3.0
+numpy>=1.20.0
+matplotlib>=3.3.0
+
+# HTTP requests (for llama.cpp server)
+requests>=2.28.0
+
+# Optional: VLLM for high-throughput inference
+# pip install vllm
+
+# Optional: Qwen VL utilities
+# pip install qwen-vl-utils
+
+# Optional: Flash Attention for faster inference
+# pip install flash-attn --no-build-isolation

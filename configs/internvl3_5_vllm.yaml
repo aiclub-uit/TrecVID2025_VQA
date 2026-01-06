@@ -1,0 +1,61 @@
+# InternVL3.5 Configuration - VLLM Backend
+# This configuration uses the VLLM library for high-throughput inference
+
+model_type: "vllm"
+model_name: "/path/to/your/InternVL3_5-38B-Instruct"  # Change to your model path
+model_format: "internvl"
+use_chat_template: true  # Enable chat template for InternVL3
+
+# VLLM configuration
+vllm_config:
+  dtype: "bfloat16"
+  gpu_memory_utilization: 0.95  # Optimized for stability with multimodal
+  trust_remote_code: true
+  max_model_len: 64000
+  tensor_parallel_size: 2       # Adjust based on your GPU count
+  enforce_eager: true           # Let vLLM use optimized kernels
+  enable_prefix_caching: true
+  disable_custom_all_reduce: false
+  # InternVL3.5 specific parameters
+  max_num_tiles: 12
+  image_size: 448
+
+# Sampling parameters
+sampling_params:
+  max_tokens: 2048
+  temperature: 0.6
+  do_sample: true
+  top_k: 1
+  top_p: 1.0
+
+# Data configuration
+data_config:
+  prepared_data_dir: "prepared"
+  video_data_dir: "/path/to/videos"  # Change to your video directory
+  output_dir: "./outputs"
+
+# Multiple choice configuration - using ranking approach
+mc_config:
+  max_frames: 12
+  frame_sampling: "uniform"
+  approach: "ranking"  # Use the original ranking approach
+
+  # Ranking approach prompt
+  prompt_template: |
+    You are given a video and a multiple-choice question about it.
+    Your task: watch the video carefully and answer the question using both visual and audio information.
+
+    For each question, rank all options from most likely correct to least likely correct. Provide your ranking as letters separated by spaces (e.g., B A D C).
+
+    Question: {question}
+    Audio transcription: "{recognized_text}"
+    Options:
+    A. {option_a}
+    B. {option_b}
+    C. {option_c}
+    D. {option_d}
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "./logs"

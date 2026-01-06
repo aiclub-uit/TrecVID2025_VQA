@@ -1,0 +1,57 @@
+# llama.cpp HTTP Server Configuration
+# This configuration uses llama.cpp server for inference via HTTP API
+
+model_type: "llamacpp"
+model_name: "InternVL3.5-8B"  # Model name for display
+model_format: "internvl"
+
+# Server configuration
+server_config:
+  host: "127.0.0.1"
+  port: 8080
+  # The server should be started separately with:
+  # ./llama-server -m /path/to/model.gguf --host 127.0.0.1 --port 8080
+
+# Image processing configuration (InternVL3.5 compatible)
+image_config:
+  input_size: 448
+  max_num_tiles: 12
+  use_thumbnail: true
+
+# Generation parameters
+generation_config:
+  max_tokens: 512
+  temperature: 0.0
+  top_p: 1.0
+  repeat_penalty: 1.0
+
+# Data configuration
+data_config:
+  prepared_data_dir: "prepared"
+  video_data_dir: "/path/to/videos"  # Change to your video directory
+  output_dir: "./outputs"
+
+# Multiple choice configuration
+mc_config:
+  max_frames: 8  # Lower for resource-constrained environments
+  frame_sampling: "uniform"
+  approach: "ranking"
+
+  prompt_template: |
+    You are given a video and a multiple-choice question about it.
+    Your task: watch the video carefully and answer the question.
+
+    For each question, rank all options from most likely correct to least likely correct. Provide your ranking as letters separated by spaces (e.g., B A D C).
+
+    Question: {question}
+    Options:
+    A. {option_a}
+    B. {option_b}
+    C. {option_c}
+    D. {option_d}
+    Answer:
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "./logs"

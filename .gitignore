@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Results and outputs
+results/
+outputs/
+evaluations/
+logs/
+
+# Data directories
+prepared/
+raw/
+data/
+
+# Model weights and caches
+*.bin
+*.safetensors
+*.gguf
+*.pt
+*.pth
+caches/
+.cache/
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# Media files (keep example_data/)
+*.mp4
+*.avi
+*.mov
+*.png
+*.jpg
+*.jpeg
+!example_data/*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets and configs with local paths
+*.local.yaml
+*.secret.yaml
+.env
+
+# Submission files
+*.csv
+!example_data/*.csv
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
